@@ -38,7 +38,6 @@ class Ball {
     }
 
     draw(){
-        //ctx.save();
 
         ctx.beginPath();
         ctx.arc(this.x-this.r-5, this.y-this.r-5, this.r, 0, Math.PI*2);
@@ -83,7 +82,6 @@ function onMouseUp(e){
 
 function onMouseMove(e){
     if(isClicked){
-       //console.log("moving and clicked");
        clearAll(e);
        ctx.strokeStyle = "red";
        ctx.lineWidth = 2;
@@ -103,10 +101,6 @@ function drawBall(e){
 
     ball = new Ball(lastBallX, lastBallY, 10);
     ball.draw();
-
-    //ctx.restore();
-    
-    //return ball.x - ball.r - 5, ball.y - ball.r - 5;
     
 };
 
