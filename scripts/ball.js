@@ -16,11 +16,11 @@ let isClicked = false;
 let lastBallX, lastBallY = 0;
 let notBallDrawn = true;
 let ball = null;
-let velocity = null;
+let ballVelocity = null;
 let doAnim = true;
 
-let speedRatio = -10000;
-let g = 0.001;
+let speedRatio = -300;
+let g = 0.00028;
 let overAllTime = 0;
 
 //listeners
@@ -47,8 +47,13 @@ class Ball {
     }
 
     move(time){
-        this.x += velocity.x * time;
-        this.y += velocity.y * time + 0.5*g*time^2;
+        ballVelocity.y += g * time;     //gravity
+
+        this.x += ballVelocity.x * time;
+        this.y += ballVelocity.y * time;    //translation
+
+        //this.x += velocity.x * time;
+        //this.y += velocity.y * time + 0.5*g*time^2; 
 
     }
 };
@@ -74,7 +79,7 @@ function onMouseDown(e){
 function onMouseUp(e){
     isClicked = !isClicked;
     notBallDrawn = !notBallDrawn;
-    velocity = new Vector(lastBallX - e.clientX, lastBallY - e.clientY, speedRatio);
+    ballVelocity = new Vector(lastBallX - e.clientX, lastBallY - e.clientY, speedRatio);
 
     moveAll();
     
@@ -117,8 +122,8 @@ function clearAll(e){
 function moveAll(){
     if(doAnim){
         const time = new Date();
-        overAllTime += time.getMilliseconds();
-        ball.move(overAllTime);
+        //overAllTime += time.getSeconds();
+        ball.move(time.getSeconds());
         ctx.clearRect(0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"));
         ball.draw();
         //console.log(ball.x);
@@ -127,7 +132,7 @@ function moveAll(){
 
         if(ball.x >= canvas.getAttribute("width") || ball.y >= canvas.getAttribute("height") || ball.x <= 0 || ball.y <= 0){
             ctx.clearRect(0, 0, canvas.getAttribute("width"), canvas.getAttribute("height"));
-            velocity = null;
+            ballVelocity = null;
             ball.x = null;
             ball.y = null;
             overAllTime = 0;
